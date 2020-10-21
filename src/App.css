@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+
+/* CSS HSL */
+:root {
+  --mint-green: hsla(121, 90%, 81%, 1);
+  --flickr-pink: hsla(333, 85%, 53%, 1);
+  --blue-yonder: hsla(210, 32%, 46%, 1);
+  --light-salmon: hsla(18, 100%, 72%, 1);
+  --palatinate-purple: hsla(310, 47%, 23%, 1);
+}
