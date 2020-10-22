@@ -8,15 +8,6 @@ import Measure from "react-measure";
 import classNames from "classnames";
 import { Card } from "./components/Card";
 
-const cards = [
-  "https://upload.wikimedia.org/wikipedia/en/f/f5/RWS_Tarot_08_Strength.jpg",
-  "https://upload.wikimedia.org/wikipedia/en/5/53/RWS_Tarot_16_Tower.jpg",
-  "https://upload.wikimedia.org/wikipedia/en/9/9b/RWS_Tarot_07_Chariot.jpg",
-  "https://upload.wikimedia.org/wikipedia/en/d/db/RWS_Tarot_06_Lovers.jpg",
-  "https://upload.wikimedia.org/wikipedia/en/thumb/8/88/RWS_Tarot_02_High_Priestess.jpg/690px-RWS_Tarot_02_High_Priestess.jpg",
-  "https://upload.wikimedia.org/wikipedia/en/d/de/RWS_Tarot_01_Magician.jpg",
-];
-
 const useStyles = createUseStyles({
   background: {
     width: "100vw",
@@ -29,8 +20,15 @@ const useStyles = createUseStyles({
 function App() {
   const props = useSpring({ opacity: 1, from: { opacity: 0 } });
   const [dimensions, setDimensions] = React.useState({ width: -1, height: -1 });
-  const [active, setActive] = React.useState(false);
+  const [active, setActive] = React.useState();
   const classes = useStyles();
+  const handleCardClick = (name) => {
+    if (name === active) {
+      setActive(undefined);
+    } else {
+      setActive(name);
+    }
+  };
   React.useEffect(() => {}, [dimensions]);
   return (
     <Measure
@@ -42,20 +40,24 @@ function App() {
       {({ measureRef }) => (
         <div className={classes.background} ref={measureRef}>
           <Card
-            active={false}
-            rotation={Math.random() * 40 - 20}
+            active={active === "hello"}
+            rotation={-15}
             dimensions={dimensions}
-            onClick={() => setActive(!active)}
+            onClick={() => handleCardClick("hello")}
           >
-            Card Content Hello World 1
+            Card Content
+            <br />
+            Hello World FooBar
           </Card>
           <Card
-            active={active}
-            rotation={Math.random() * 40 - 20}
+            active={active === "world"}
+            rotation={10}
             dimensions={dimensions}
-            onClick={() => setActive(!active)}
+            onClick={() => handleCardClick("world")}
           >
-            Card Content Hello World 2
+            Card Content
+            <br />
+            Hello World FooBar
           </Card>
         </div>
       )}

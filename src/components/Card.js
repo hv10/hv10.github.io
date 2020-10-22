@@ -15,7 +15,7 @@ const useStyles = createUseStyles({
     translate: "-50% -50%",
     transform:
       "perspective(1500px) rotateX(35deg) rotateY(0deg) rotateZ(0deg) scale(0.7)",
-    transition: "0.2s ease-in-out",
+    transition: "0.2s ease-out",
   },
   cardContent: {
     position: "relative",
@@ -42,6 +42,7 @@ const useStyles = createUseStyles({
   },
   activeCard: {
     boxShadow: "none",
+    zIndex: 100,
   },
 });
 export const Card = ({ active, dimensions, onClick, children, rotation }) => {
