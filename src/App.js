@@ -57,7 +57,7 @@ function App() {
           >
             Card Content
             <br />
-            Hello World FooBar
+            Hello World FooBar 2
           </Card>
         </div>
       )}

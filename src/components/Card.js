@@ -1,6 +1,8 @@
 import classNames from "classnames";
 import React from "react";
 import { createUseStyles } from "react-jss";
+import { useDrag } from "react-use-gesture";
+import { useSpring, animated } from "react-spring";
 
 const useStyles = createUseStyles({
   card: {
@@ -13,17 +15,15 @@ const useStyles = createUseStyles({
     left: "50%",
     bottom: "auto",
     translate: "-50% -50%",
-    transform:
-      "perspective(1500px) rotateX(35deg) rotateY(0deg) rotateZ(0deg) scale(0.7)",
-    transition: "0.2s ease-out",
   },
   cardContent: {
     position: "relative",
+    background: "hsla(18, 100%, 95%, 1)",
     height: "100%",
     borderRadius: 5,
     padding: "0.25em",
     boxSizing: "border-box",
-    border: "5px inset var(--palatinate-purple)",
+    //border: "5px inset var(--palatinate-purple)",
   },
   baseShadow: {
     position: "absolute",
@@ -33,12 +33,10 @@ const useStyles = createUseStyles({
     left: "50%",
     bottom: "auto",
     translate: "-50% -50%",
-    width: "66vw",
-    height: "66vh",
+    width: "80vw",
+    height: "80vh",
     backgroundColor: "rgba(0,0,0,0.25)",
     boxShadow: "1px 1px 30px 30px rgba(0,0,0,0.25)",
-    transform:
-      "perspective(1500px) rotateX(35deg) rotateY(0deg) translateZ(-50px) scale(0.7)",
   },
   activeCard: {
     boxShadow: "none",
@@ -47,34 +45,47 @@ const useStyles = createUseStyles({
 });
 export const Card = ({ active, dimensions, onClick, children, rotation }) => {
   const classes = useStyles();
-  const getTransform = () => {
-    return `perspective(1500px) rotateX(35deg) rotateY(0deg) rotateZ(${rotation}deg) scale(0.7)`;
+  const getTransform = (x = 0, y = 0) => {
+    return `perspective(1500px) translate(${x}px, ${y}px) rotateX(35deg) rotateY(0deg) rotateZ(${rotation}deg) scale(0.7)`;
   };
   const getActiveTransform = () => {
     return "perspective(1500px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1)";
   };
+  const [{ x, y, down }, set] = useSpring(() => ({ x: 0, y: 0, down: 0 }));
+  // Set the drag hook and define component movement based on gesture data
+  const bind = useDrag(({ down, movement: [mx, my] }) => {
+    let deadzone = mx * mx + my * my > 25;
+    console.log(mx, my, deadzone);
+    set({ x: down ? mx : 0, y: down ? my : 0, down: deadzone ? 1 : 0 });
+  });
   return (
     <>
       {active ? null : (
-        <div
+        <animated.div
+          {...bind}
           className={classes.baseShadow}
-          style={{ transform: getTransform() }}
+          style={{ transform: x.interpolate(getTransform) }}
         />
       )}
-      <div
+      <animated.div
+        {...bind()}
         style={{
-          width: dimensions.width * 0.66,
-          height: dimensions.height * 0.66,
-          transform: active ? getActiveTransform() : getTransform(),
+          width: dimensions.width * 0.8,
+          height: dimensions.height * 0.8,
+          transform: active
+            ? getActiveTransform()
+            : x.interpolate(getTransform),
         }}
         className={classNames([
           classes.card,
           active ? classes.activeCard : null,
         ])}
-        onClick={onClick}
+        onClick={(e) => (down === 1 ? null : onClick(e))}
       >
-        <div className={classes.cardContent}>{children}</div>
-      </div>
+        <div className={classes.cardContent} style={{ userSelect: "none" }}>
+          {children}
+        </div>
+      </animated.div>
     </>
   );
 };
