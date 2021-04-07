@@ -1,67 +1,52 @@
-import React from "react";
-import logo from "./logo.svg";
+import React, { useMemo } from "react";
 import "./App.css";
-import { useSpring, useSprings, animated, interpolate } from "react-spring";
 import { createUseStyles } from "react-jss";
-import { useGesture } from "react-use-gesture";
-import Measure from "react-measure";
-import classNames from "classnames";
 import { Card } from "./components/Card";
+import { Menu } from "./components/Menu";
+import Projects from "./components/Projects";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Logo } from "./components/Logo";
 
 const useStyles = createUseStyles({
   background: {
-    width: "100vw",
-    height: "100vh",
-    backgroundColor: "var(--mint-green)",
-    zIndex: 0,
+    background: "var(--dark-purple)",
+    position: "fixed",
+    overflow: "hidden",
+    width: "100%",
+    height: "100%",
+    top: 0,
+    cursor:
+      'url("https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png") 39 39, auto',
+  },
+  content: {
+    margin: "10vh 5vw",
+    maxWidth: "100vw",
+    height: "100%",
+    position: "relative",
   },
 });
 
 function App() {
-  const props = useSpring({ opacity: 1, from: { opacity: 0 } });
-  const [dimensions, setDimensions] = React.useState({ width: -1, height: -1 });
-  const [active, setActive] = React.useState();
   const classes = useStyles();
-  const handleCardClick = (name) => {
-    if (name === active) {
-      setActive(undefined);
-    } else {
-      setActive(name);
-    }
-  };
-  React.useEffect(() => {}, [dimensions]);
   return (
-    <Measure
-      bounds
-      onResize={(contentRect) => {
-        setDimensions(contentRect.bounds);
-      }}
-    >
-      {({ measureRef }) => (
-        <div className={classes.background} ref={measureRef}>
-          <Card
-            active={active === "hello"}
-            rotation={-15}
-            dimensions={dimensions}
-            onClick={() => handleCardClick("hello")}
-          >
-            Card Content
-            <br />
-            Hello World FooBar
-          </Card>
-          <Card
-            active={active === "world"}
-            rotation={10}
-            dimensions={dimensions}
-            onClick={() => handleCardClick("world")}
-          >
-            Card Content
-            <br />
-            Hello World FooBar 2
-          </Card>
-        </div>
-      )}
-    </Measure>
+    <Router>
+      <div className={classes.background}></div>
+      <Menu />
+      <Logo />
+      <div className={classes.content}>
+        <Switch>
+          <Route path="/about">
+            <div />
+          </Route>
+          <Route path="/projects">
+            <Projects />
+          </Route>
+          <Route path="/">
+            <Projects />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
