@@ -3,9 +3,10 @@ import "./App.css";
 import { createUseStyles } from "react-jss";
 import { Card } from "./components/Card";
 import { Menu } from "./components/Menu";
-import Projects from "./components/Projects";
+import Projects from "./pages/Projects";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Logo } from "./components/Logo";
+import { About } from "./pages/About";
 
 const useStyles = createUseStyles({
   background: {
@@ -36,7 +37,7 @@ function App() {
       <div className={classes.content}>
         <Switch>
           <Route path="/about">
-            <div />
+            <About />
           </Route>
           <Route path="/projects">
             <Projects />

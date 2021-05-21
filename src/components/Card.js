@@ -1,5 +1,6 @@
 import React from "react";
 import { useSpring, animated } from "react-spring";
+import { Link } from "react-router-dom";
 
 import "./Card.css";
 
@@ -7,7 +8,7 @@ const calc = (x, y, w, h) => [-(y - h / 2) / 40, (x - w / 2) / 40, 25];
 const trans = (rx, ry, s) =>
   `perspective(600px) translate3d(0,0,${s}px) rotateX(${rx}deg) rotateY(${ry}deg)`;
 
-export const Card = ({ backgroundImage, rowSpan = 1, content }) => {
+export const Card = ({ backgroundImage, rowSpan = 1, content, linkTo }) => {
   const [vars, set] = useSpring(() => ({
     xys: [0, 0, 0],
     config: { mass: 5, tension: 350, friction: 40 },
@@ -27,13 +28,15 @@ export const Card = ({ backgroundImage, rowSpan = 1, content }) => {
         gridRowEnd: `span ${rowSpan}`,
       }}
     >
-      <div
-        className="backdrop"
-        style={{
-          backgroundImage: backgroundImage,
-        }}
-      />
-      <div className="content">{content}</div>
+      <Link to={linkTo}>
+        <div
+          className="backdrop"
+          style={{
+            backgroundImage: backgroundImage,
+          }}
+        />
+        <div className="content">{content}</div>
+      </Link>
     </animated.div>
   );
 };

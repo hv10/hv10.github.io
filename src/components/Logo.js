@@ -2,14 +2,14 @@ import React from "react";
 import { createUseStyles } from "react-jss";
 import logo from "../assets/hv10_logo_font_white.svg";
 import classname from "classnames";
+import "../assets/animations.css";
 
 const useStyles = createUseStyles({
   wrapper: {
     display: "grid",
     justifyItems: "center",
-    filter:
-      "drop-shadow(0px 20px 0 var(--flickr-pink)) drop-shadow(0px 20px 0 var(--mint-green))",
     maxWidth: "100%",
+    willChange: "filter",
   },
   logo: {
     zIndex: 100,
@@ -28,7 +28,7 @@ const useStyles = createUseStyles({
 export const Logo = () => {
   const classes = useStyles();
   return (
-    <div className={classes.wrapper}>
+    <div className={classname(classes.wrapper, "pump")}>
       <svg
         width="247.76991mm"
         height="140.70352mm"

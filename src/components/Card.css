@@ -17,9 +17,22 @@
   width: 100%;
   height: 100%;
   background-size: cover;
-  filter: brightness(150%) saturate(85%) blur(1px);
+  background-position: center;
+  opacity: 0.5;
+  filter: brightness(170%) saturate(75%) blur(2px);
+  transition: all 0.3s ease-in-out;
+}
+.card .backdrop:hover {
+  filter: brightness(170%) saturate(75%) blur(0px);
 }
 
 .card .content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   padding: 5px;
+  color: black;
+  pointer-events: none;
+  text-align: center;
 }

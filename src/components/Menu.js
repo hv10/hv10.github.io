@@ -5,9 +5,13 @@ import { Link } from "react-router-dom";
 const useStyles = createUseStyles({
   holder: {
     position: "sticky",
-    top: "2vh",
+    top: "0vh",
+    paddingTop: "2vh",
+    paddingBottom: "0.5rem",
     left: "2vw",
     display: "flex",
+    zIndex: 999,
+    backgroundColor: "var(--dark-purple)",
   },
   link: {
     userSelect: "none",
@@ -15,7 +19,7 @@ const useStyles = createUseStyles({
     color: "var(--white)",
   },
   linkdiv: {
-    fontSize: "2rem",
+    fontSize: "1.5rem",
     padding: "0.2ch 1ch",
     "&:hover": {
       color: "var(--light-salmon)",
